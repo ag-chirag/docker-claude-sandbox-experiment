@@ -11,31 +11,25 @@ The kit uses only disposable fixtures and fake canaries. It is intended for secu
 
 ## What this kit tests
 
-1. Editing a real application and running its tests.
-2. Installing packages with `sudo` inside the microVM.
-3. Building and running containers with the sandbox's private Docker daemon.
-4. Reading a fake secret stored inside the workspace.
-5. Attempting to read a fake host-only canary outside the mounted workspace.
-6. Attempting to escape through a symlink that points outside the workspace.
-7. Comparing sandbox processes and Docker containers with the host.
-8. Verifying that credential values are not exposed as ordinary environment variables.
-9. Blocking one network destination while permitting an explicit local test endpoint.
-10. Demonstrating direct-mode workspace risk, including a harmless Git hook that does not appear in `git diff`.
-11. Repeating the workspace mutation in clone mode and comparing host integrity.
+1. Editing a real application and running its tests in direct mode.
+2. Checking direct-mode access to the fake workspace canary, host-only path, symlink, observer process, and sandbox Docker daemon.
+3. Demonstrating direct-mode workspace mutations, including a harmless Git hook that does not appear in `git diff`.
+4. Blocking one network destination while permitting one explicit loopback collector.
+5. Comparing the same file and hook changes in clone mode without changing the host checkout.
 
 ## Before you run it
 
 - Run this only against the disposable repositories created by `scripts/prepare-fixtures.sh`.
 - Do not add real API keys, SSH keys, cloud credentials, customer data, or private source code.
 - The included tokens contain `FAKE`, `CANARY`, or both. They are deliberately non-secret.
-- Authenticate Claude through `sbx` OAuth or `sbx secret set anthropic`; never write an Anthropic key into the fixture.
+- For a Claude subscription, authenticate from inside Claude Code with `/login`. For an Anthropic API key, store it interactively with `sbx secret set anthropic`; never write a key into the fixture.
 - Do not mount your home directory or an existing work repository.
-- Start the sandboxes with `--no-share-skills` so this experiment cannot change the shared skills store.
+- Target Docker Sandboxes v0.43.0 and use `--skills=off` so the experiment does not share the host skills store. Earlier results in `RESULTS.md` are retained as v0.38.0 historical evidence only.
 
 ## Run the experiment
 
 1. Read [RUNBOOK.md](RUNBOOK.md).
-2. Run the five prompts in `prompts/` in order.
+2. Create both sandboxes, then run the five prompts in `prompts/` in filename order: direct development, boundaries, direct mutations, network, and clone comparison.
 3. Record observations in [RESULTS.md](RESULTS.md).
 4. Put terminal captures in `evidence/`.
 5. Run `scripts/redaction-check.sh` before sharing any evidence.

@@ -1,4 +1,4 @@
-# Prompt 4: direct-mode workspace blast radius
+# Prompt 3: direct-mode workspace blast radius
 
 This is the destructive portion of a controlled experiment. Confirm that `README.md` says this is a disposable repository before continuing. If it does not, stop. Do not touch anything outside this repository.
 
@@ -10,4 +10,3 @@ This is the destructive portion of a controlled experiment. Confirm that `README
 6. Record every command and result in `experiment-04.md`.
 
 This test exists to demonstrate that direct mode deliberately shares the working tree with the host and that `.git/hooks` changes can evade an ordinary diff review.
-

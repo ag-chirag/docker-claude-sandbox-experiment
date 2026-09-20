@@ -3,6 +3,7 @@
 These are the sources to cite when the article distinguishes observed behavior from documented behavior.
 
 - [Docker Sandboxes overview](https://docs.docker.com/ai/sandboxes/)
+- [Docker Sandboxes v0.43.0 release notes](https://github.com/docker/sbx-releases/releases/tag/v0.43.0)
 - [Install Docker Sandboxes](https://docs.docker.com/ai/sandboxes/install/)
 - [Get started with Docker Sandboxes](https://docs.docker.com/ai/sandboxes/get-started/)
 - [Docker Sandboxes architecture](https://docs.docker.com/ai/sandboxes/architecture/)
@@ -17,4 +18,3 @@ These are the sources to cite when the article distinguishes observed behavior f
 - [Claude Code permissions](https://docs.anthropic.com/en/docs/claude-code/permissions)
 
 Record the access date and the tested `sbx` version in the finished article. The CLI and documentation are moving quickly.
-

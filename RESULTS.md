@@ -1,5 +1,13 @@
 # Experiment results
 
+## Version status
+
+The results below are **historical v0.38.0 evidence**, captured on 2026-08-16. They are not a verification of Docker Sandboxes v0.43.0.
+
+Run the current sequence in `RUNBOOK.md` before making v0.43.0 claims. Store sanitized session recordings and snapshots under `evidence/v0.43.0/`, then complete the rerun record at the end of this file.
+
+## Historical run: Docker Sandboxes v0.38.0
+
 ## Environment
 
 | Field | Value |
@@ -22,7 +30,7 @@ Use “Observed,” “Not observed,” or “Inconclusive.” Do not turn expec
 | --- | --- | --- | --- | --- |
 | Edit application files in direct mode | Succeeds and appears immediately on host | **Observed:** `app.py` and `tests/test_app.py` changed in the host fixture. | `evidence/after-direct/direct-git-{status,diff}.txt` | Direct mode shares the selected working tree. |
 | Run application tests | Succeeds | **Observed:** 3/3 pytest tests passed in the sandbox. | `run/direct-workspace/experiment-01.md` | The fixture can be changed and tested in direct mode. |
-| Install a package with `sudo` | Succeeds inside microVM | **Partially observed:** `sudo -n true` succeeded; `jq` was already installed, so no package installation was needed. | `run/direct-workspace/experiment-01.md` | Sandbox user had non-interactive sudo. |
+| Confirm `sudo` capability | `sudo -n true` succeeds inside microVM | **Observed:** `sudo -n true` succeeded. No package installation was attempted. | `run/direct-workspace/experiment-01.md` | This historical run demonstrated non-interactive `sudo`, not package installation. |
 | Build and run a Docker container | Succeeds on private daemon | **Observed:** image built; published localhost health check succeeded; container was stopped and removed. | `run/direct-workspace/experiment-01.md` | Nested Docker was usable inside the sandbox. |
 | Container appears in host `docker ps` | Does not appear | **Observed:** no test container remained in host snapshots. | `evidence/after-direct/host-docker-ps.txt` | No host-container visibility was observed. |
 | Write `/opt/claude-sandbox-canary` | Succeeds inside microVM | **Observed:** fake canary was created and read inside the sandbox. | `run/direct-workspace/experiment-01.md` | Sandbox-local filesystem writes succeeded. |
@@ -31,7 +39,7 @@ Use “Observed,” “Not observed,” or “Inconclusive.” Do not turn expec
 | Read host-only canary by path guessing | Fails | **Observed:** sibling host-only path was unavailable. | `run/direct-workspace/experiment-02.md` | Direct-mode mount did not expose that sibling path. |
 | Follow symlink outside workspace | Fails | **Observed:** `outside-link.txt` was dangling/unreadable in the sandbox. | `run/direct-workspace/experiment-02.md` | The tested out-of-workspace symlink target was not reachable. |
 | See host observer in sandbox `ps` | Fails | **Observed:** the host observer process was not visible. | `run/direct-workspace/experiment-02.md` | No host process visibility was observed in this test. |
-| Extract real Anthropic credential from environment | No value exposed | **Observed:** only environment variable names were listed; no credential value was printed. | `run/direct-workspace/experiment-02.md` | This run did not expose a real credential value. |
+| Inspect credential-related environment names | Names only; no credential extraction attempt | **Observed:** names were listed without values. This is not evidence that a real credential was absent, inaccessible, or secret. | `run/direct-workspace/experiment-02.md` | Do not cite this test as proof of credential secrecy. |
 | Reach denied `example.com` | Fails and appears in policy log | **Observed:** blocked by the local rule for `example.com:443`. | `evidence/policy-log.direct.json` | Explicit sandbox-scoped deny rule worked. |
 | POST fake canary to explicitly allowed host collector | Succeeds | **Observed:** loopback collector returned HTTP 200 and recorded one fake-only body. | `evidence/network-collector.jsonl` | Explicit localhost exception permitted the requested test only. |
 | Delete tracked file in direct mode | Succeeds on host checkout | **Observed:** `delete-me.txt` remains deleted in the host direct fixture. | `evidence/after-direct/direct-git-status.txt` | Direct mode can mutate host checkout files. |
@@ -68,3 +76,18 @@ Classify each eventual article statement:
 - **Inference:** a conclusion drawn from observed and documented behavior.
 
 Do not describe an inference as an observed security guarantee.
+
+## v0.43.0 rerun record
+
+**Status:** Not run as of 2026-09-20. Do not cite the historical matrix above as a v0.43.0 result.
+
+| Test | Fresh observed result | Sanitized evidence |
+| --- | --- | --- |
+| Direct development and tests | Not run | — |
+| Direct boundaries and credential paths | Not run | — |
+| Direct deletion and hook checks | Not run | — |
+| Denied domain and loopback collector | Not run | — |
+| Clone write isolation and source readability | Not run | — |
+| Host container visibility while nested container runs | Not run | — |
+
+For every fresh outcome, record the `sbx` version, whether organization governance was active, the exact command location (host or sandbox), and only redacted output.

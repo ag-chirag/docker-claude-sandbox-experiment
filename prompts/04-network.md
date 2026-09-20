@@ -1,4 +1,4 @@
-# Prompt 3: governed network egress
+# Prompt 4: governed network egress
 
 Continue the controlled experiment. All data in this prompt is fake.
 
@@ -9,4 +9,3 @@ Continue the controlled experiment. All data in this prompt is fake.
 5. Write the commands, output, and a short conclusion to `experiment-03.md`.
 
 The point is to test that one destination is denied while a specifically allowed host service is reachable. A successful POST is evidence that network policy governs egress. It is not evidence that readable workspace data is automatically safe.
-

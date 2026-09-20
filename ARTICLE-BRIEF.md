@@ -20,34 +20,30 @@ Then reveal why this can be reasonable inside a stronger boundary. The article s
 
 ## Recommended structure
 
-1. **The command I would never run on my laptop**
-   Show approval prompts disabled and explain the experiment.
-2. **What Docker actually sandboxed**
+1. **Why Docker Sandboxes exist**
+   Introduce Docker Sandboxes, the agent boundary, and the disposable-fixture experiment.
+2. **Create both sandboxes before testing either one**
    One compact architecture diagram: host, microVM, workspace mount, host proxy, credential injection.
-3. **What Claude could do without asking**
-   Edit code, install packages, run tests, use `sudo`, and run nested containers.
-4. **The first surprise: my repository was still part of the blast radius**
-   Direct-mode changes are host changes. Include deletion and the harmless Git-hook demonstration.
-5. **What it could not reach**
-   Host-only canary, symlink escape, host processes, host Docker, and proxy-managed credential values.
-6. **The second surprise: network isolation is policy, not absence of a network**
+3. **Direct mode: develop inside the shared checkout**
+   Edit code, run tests, confirm `sudo`, and compare the nested Docker daemon with the host while the test container is running.
+4. **Direct mode: inspect boundaries**
+   Test the fake workspace value, host-only path, symlink, observer process, and the two credential paths without claiming that environment names reveal secret availability.
+5. **Direct mode: prove the working-tree blast radius**
+   Include the deletion and harmless Git-hook demonstration.
+6. **Direct mode: network is policy, not the absence of a network**
    Denied domain fails. Explicitly allowed local collector receives the fake workspace canary.
 7. **Clone mode fixes integrity, not confidentiality**
-   Host checkout stays clean, but Claude can still read the source and fake repo secret.
+   Fetch the private branch while its sandbox remains running; show that fetch does not apply changes or transfer Git hooks.
 8. **The setup I would actually use**
-   Disposable clone, `--clone`, `--no-share-skills`, narrow network rules, proxy-managed credentials, no real secrets in the repo, and review before fetch or push.
+   Disposable clone, `--clone`, `--skills=off`, narrow network rules, no real secrets in the repo, and review before fetch or push.
 9. **The real lesson**
    A sandbox does not eliminate trust. It turns implicit ambient access into a set of inspectable interfaces.
 
-## Strongest likely findings
+## Evidence status
 
-- “Full access” is accurate inside the microVM. Claude has `sudo`, can install packages, and can operate a private Docker daemon.
-- Direct mode deliberately shares the host working tree read-write. It is convenient, but the repository is outside the protection readers may assume from the word “sandbox.”
-- Git hooks deserve special emphasis because they live in `.git` and do not appear in an ordinary `git diff`.
-- Clone mode is the safer default for autonomous tasks because changes stay in the private clone until an explicit Git action crosses the boundary.
-- Clone mode still exposes repository contents, including committed or unignored secrets.
-- Network policies can stop arbitrary destinations, but any allowed destination can receive data the agent can read.
-- Proxy-managed credentials reduce exposure because the values stay on the host and are injected into matching outbound requests.
+The repository preserves a v0.38.0 run as historical evidence. The article should identify it as historical and should not present any of its outcomes as v0.43.0 verification.
+
+After a v0.43.0 rerun, report only the observed result for each test. In particular, this kit does not demonstrate package installation or credential secrecy; it checks `sudo` capability and avoids credential extraction.
 
 ## Claims to avoid
 
@@ -61,4 +57,3 @@ Then reveal why this can be reasonable inside a stronger boundary. The article s
 ## Publication angle
 
 The viral promise is the apparent contradiction between `--dangerously-skip-permissions` and a security product. The practical payoff is a concrete answer to the question senior engineers now face: “Can I let an agent work autonomously without giving it my entire laptop?”
-

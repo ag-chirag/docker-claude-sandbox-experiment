@@ -28,11 +28,29 @@ for mode in direct clone; do
   git -C "$workspace" diff > "$evidence_dir/${mode}-git-diff.txt"
   git -C "$workspace" ls-files -s > "$evidence_dir/${mode}-tracked-files.txt"
 
+  if [[ -e "$workspace/delete-me.txt" ]]; then
+    printf '%s\n' 'PRESENT' > "$evidence_dir/${mode}-delete-me-status.txt"
+  else
+    printf '%s\n' 'ABSENT' > "$evidence_dir/${mode}-delete-me-status.txt"
+  fi
+
   hook="$workspace/.git/hooks/post-checkout"
   if [[ -f "$hook" ]]; then
     shasum -a 256 "$hook" > "$evidence_dir/${mode}-post-checkout-hook.sha256"
+    {
+      printf '%s\n' 'PRESENT'
+      [[ -x "$hook" ]] && printf '%s\n' 'EXECUTABLE' || printf '%s\n' 'NOT_EXECUTABLE'
+      ls -l "$hook"
+    } > "$evidence_dir/${mode}-post-checkout-hook-status.txt"
   else
     printf '%s\n' 'ABSENT' > "$evidence_dir/${mode}-post-checkout-hook.sha256"
+    printf '%s\n' 'ABSENT' > "$evidence_dir/${mode}-post-checkout-hook-status.txt"
+  fi
+
+  if [[ -e "$workspace/hook-result.txt" ]]; then
+    printf '%s\n' 'PRESENT' > "$evidence_dir/${mode}-hook-result-status.txt"
+  else
+    printf '%s\n' 'ABSENT' > "$evidence_dir/${mode}-hook-result-status.txt"
   fi
 done
 
@@ -44,4 +62,3 @@ fi
 
 ps aux | grep '[d]ocker-sandbox-host-observer-8765' > "$evidence_dir/host-observer-process.txt" || true
 echo "Wrote snapshot to $evidence_dir"
-
