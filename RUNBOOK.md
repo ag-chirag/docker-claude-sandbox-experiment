@@ -14,7 +14,7 @@ sbx diagnose
 sbx version
 ```
 
-Record the date and version in the v0.43.0 rerun section of `RESULTS.md`. Stop here if `sbx version` does not report v0.43.0; do not compare a new release with the historical v0.38.0 outcomes as if they were the same run.
+Record the date and version in `RESULTS.md`. Stop here if `sbx version` does not report v0.43.0; do not record a different release as this run.
 
 Claude Code needs one authentication path:
 
@@ -174,9 +174,8 @@ Paste `prompts/05-clone-mode.md`. When Claude finishes, leave its session open a
 ```bash
 git -C run/clone-workspace status --short
 git -C run/clone-workspace diff
-git -C run/clone-workspace fetch sandbox-claude-clone
-git -C run/clone-workspace branch --remotes
-git -C run/clone-workspace diff main..sandbox-claude-clone/experiment/clone-mode
+git -C run/clone-workspace fetch sandbox-claude-clone experiment/clone-mode
+git -C run/clone-workspace diff HEAD FETCH_HEAD
 ```
 
 Fetching downloads Git objects and remote references. It does **not** apply the clone's working-tree changes to `run/clone-workspace`, and it does **not** transfer `.git/hooks`, which are local Git metadata rather than committed objects. Do not check out the fetched branch until the hook has been inspected independently.

@@ -24,7 +24,7 @@ The kit uses only disposable fixtures and fake canaries. It is intended for secu
 - The included tokens contain `FAKE`, `CANARY`, or both. They are deliberately non-secret.
 - For a Claude subscription, authenticate from inside Claude Code with `/login`. For an Anthropic API key, store it interactively with `sbx secret set anthropic`; never write a key into the fixture.
 - Do not mount your home directory or an existing work repository.
-- Target Docker Sandboxes v0.43.0 and use `--skills=off` so the experiment does not share the host skills store. Earlier results in `RESULTS.md` are retained as v0.38.0 historical evidence only.
+- Target Docker Sandboxes v0.43.0 and use `--skills=off` so the experiment does not share the host skills store. `RESULTS.md` records the completed v0.43.0 run, including its observed limitations.
 
 ## Run the experiment
 

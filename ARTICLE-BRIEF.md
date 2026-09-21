@@ -41,9 +41,9 @@ Then reveal why this can be reasonable inside a stronger boundary. The article s
 
 ## Evidence status
 
-The repository preserves a v0.38.0 run as historical evidence. The article should identify it as historical and should not present any of its outcomes as v0.43.0 verification.
+The repository records a completed v0.43.0 run. Report only the observed result for each test. In particular, this kit does not demonstrate package installation or credential secrecy; it checks `sudo` capability and avoids credential extraction.
 
-After a v0.43.0 rerun, report only the observed result for each test. In particular, this kit does not demonstrate package installation or credential secrecy; it checks `sudo` capability and avoids credential extraction.
+The article may describe direct-mode mutation, the tested filesystem and process boundaries, explicit network policy enforcement, isolated nested-Docker visibility, and clone-mode source write isolation as observed. It must retain the clone-fetch limitation: this run did not expose the documented `sandbox-claude-clone` host remote, so it did not produce a fetched-branch diff.
 
 ## Claims to avoid
 
